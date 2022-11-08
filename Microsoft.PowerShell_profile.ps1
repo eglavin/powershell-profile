@@ -34,10 +34,10 @@ if (get-command git) {
 #
 
 Set-Alias l Get-ChildItemColor -option AllScope
+Set-Alias ls Get-ChildItemColorFormatWide -option AllScope
 function ll { 
   Get-ChildItemColor -Force 
 }
-Set-Alias ls Get-ChildItemColorFormatWide -option AllScope
 function la {
   Get-ChildItemColorFormatWide -Force
 }
