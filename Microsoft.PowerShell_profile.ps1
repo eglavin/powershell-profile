@@ -64,7 +64,7 @@ function e. {
 function cl {
   param ([string]$dir)
   Set-Location $dir
-  Get-ChildItemColorFormatWide -Force
+  Get-ChildItem | Format-Wide
 }
 
 # Make directory and change into it
@@ -139,29 +139,23 @@ function gitor {
 
 
 # Helper function to show Unicode character
-#
-
 function U {
-  param
-  (
-    [int] $Code
-  )
+  param ([int] $Code)
  
   if ((0 -le $Code) -and ($Code -le 0xFFFF)) {
     return [char] $Code
-  }
- 
+  } 
   if ((0x10000 -le $Code) -and ($Code -le 0x10FFFF)) {
     return [char]::ConvertFromUtf32($Code)
   }
- 
   throw "Invalid character code $Code"
 }
 
+
+# Check if a local profile override is set and invoke it if so.
 $PROFILE_DIR = (Get-Item $PROFILE).DirectoryName;
 $LOCAL_PROFILE_OVERRIDES = "$PROFILE_DIR\Microsoft.PowerShell_profile.local.ps1";
 
-# Check if a local profile override is set and invoke it if so.
 if (Test-Path -Path $LOCAL_PROFILE_OVERRIDES -PathType Leaf) {
   $LOCAL_PROFILE_OVERRIDES | Invoke-Expression
 }
