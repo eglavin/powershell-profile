@@ -102,6 +102,12 @@ function yd {
 function yu { 
   yarn upgrade-interactive --latest 
 }
+function yt {
+  yarn test
+}
+function ytc {
+  yarn test:cover
+}
 Set-Alias pn pnpm -Option AllScope
 
 
