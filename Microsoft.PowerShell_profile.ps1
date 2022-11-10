@@ -1,15 +1,23 @@
-# https://github.com/joonro/Get-ChildItemColor
-Import-Module Get-ChildItemColor
+# https://github.com/devblackops/Terminal-Icons
+Import-Module -Name Terminal-Icons
 
 # https://ohmyposh.dev/
 oh-my-posh init pwsh | Invoke-Expression
-oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH/hotstick.minimal.omp.json" | Invoke-Expression
+oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH/atomic.omp.json" | Invoke-Expression
 
 # https://github.com/dahlbyk/posh-git
 $env:POSH_GIT_ENABLED = $true 
 
-# https://github.com/lptstr/winfetch
-Set-Alias winfetch pwshfetch-test-1 
+# https://learn.microsoft.com/en-us/powershell/module/psreadline/set-psreadlineoption
+$PSReadLineOptions = @{
+  EditMode                      = "Windows"
+  PredictionSource              = "History"
+  PredictionViewStyle           = "ListView"
+  HistoryNoDuplicates           = $true
+  HistorySearchCursorMovesToEnd = $true
+  MaximumHistoryCount           = 5
+}
+Set-PSReadLineOption @PSReadLineOptions
 
 
 # Delete default powershell aliases that conflict with git bash commands
@@ -33,13 +41,17 @@ if (get-command git) {
 # Bash style list directory listing
 #
 
-Set-Alias l Get-ChildItemColor -option AllScope
-Set-Alias ls Get-ChildItemColorFormatWide -option AllScope
+function l {
+  Get-ChildItem
+}
+function ls {
+  Get-ChildItem | Format-Wide
+}
 function ll { 
-  Get-ChildItemColor -Force 
+  Get-ChildItem | Format-List
 }
 function la {
-  Get-ChildItemColorFormatWide -Force
+  Get-ChildItem -Force
 }
 function .. { 
   Set-Location .. 
@@ -66,6 +78,7 @@ function mkcd {
 # Application commands
 #
 
+Set-Alias winfetch pwshfetch-test-1 # https://github.com/lptstr/winfetch
 function c. {
   code . 
 }
