@@ -1,13 +1,6 @@
 # https://github.com/devblackops/Terminal-Icons
 Import-Module -Name Terminal-Icons
 
-# https://ohmyposh.dev/
-oh-my-posh init pwsh | Invoke-Expression
-oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH/atomic.omp.json" | Invoke-Expression
-
-# https://github.com/dahlbyk/posh-git
-$env:POSH_GIT_ENABLED = $true 
-
 # https://learn.microsoft.com/en-us/powershell/module/psreadline/set-psreadlineoption
 $PSReadLineOptions = @{
   EditMode                      = "Windows"
@@ -18,6 +11,13 @@ $PSReadLineOptions = @{
   MaximumHistoryCount           = 5
 }
 Set-PSReadLineOption @PSReadLineOptions
+
+# https://github.com/dahlbyk/posh-git
+$env:POSH_GIT_ENABLED = $true 
+
+# https://ohmyposh.dev/
+oh-my-posh init pwsh | Invoke-Expression
+oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH/atomic.omp.json" | Invoke-Expression
 
 
 # Delete default powershell aliases that conflict with git bash commands
@@ -160,5 +160,4 @@ if (Test-Path -Path $LOCAL_PROFILE_OVERRIDES -PathType Leaf) {
   $LOCAL_PROFILE_OVERRIDES | Invoke-Expression
 }
 
-
-Clear-Host
+# Clear-Host
