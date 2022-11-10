@@ -158,5 +158,13 @@ function U {
   throw "Invalid character code $Code"
 }
 
+$PROFILE_DIR = (Get-Item $PROFILE).DirectoryName;
+$LOCAL_PROFILE_OVERRIDES = "$PROFILE_DIR\Microsoft.PowerShell_profile.local.ps1";
+
+# Check if a local profile override is set and invoke it if so.
+if (Test-Path -Path $LOCAL_PROFILE_OVERRIDES -PathType Leaf) {
+  $LOCAL_PROFILE_OVERRIDES | Invoke-Expression
+}
+
 
 Clear-Host
