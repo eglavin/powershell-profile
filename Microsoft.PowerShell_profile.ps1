@@ -1,6 +1,9 @@
 # https://github.com/devblackops/Terminal-Icons
 Import-Module -Name Terminal-Icons
 
+# https://github.com/dahlbyk/posh-git/#installation
+Import-Module posh-git
+
 # https://learn.microsoft.com/en-us/powershell/module/psreadline/set-psreadlineoption
 $PSReadLineOptions = @{
   EditMode                      = "Windows"
@@ -157,7 +160,7 @@ $PROFILE_DIR = (Get-Item $PROFILE).DirectoryName;
 $LOCAL_PROFILE_OVERRIDES = "$PROFILE_DIR\Microsoft.PowerShell_profile.local.ps1";
 
 if (Test-Path -Path $LOCAL_PROFILE_OVERRIDES -PathType Leaf) {
- . $LOCAL_PROFILE_OVERRIDES
+  . $LOCAL_PROFILE_OVERRIDES
 }
 
 # Clear-Host
