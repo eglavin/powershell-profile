@@ -157,7 +157,7 @@ $PROFILE_DIR = (Get-Item $PROFILE).DirectoryName;
 $LOCAL_PROFILE_OVERRIDES = "$PROFILE_DIR\Microsoft.PowerShell_profile.local.ps1";
 
 if (Test-Path -Path $LOCAL_PROFILE_OVERRIDES -PathType Leaf) {
-  $LOCAL_PROFILE_OVERRIDES | Invoke-Expression
+ . $LOCAL_PROFILE_OVERRIDES
 }
 
 # Clear-Host
