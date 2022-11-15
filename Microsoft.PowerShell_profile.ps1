@@ -48,13 +48,13 @@ function l {
   Get-ChildItem
 }
 function ls {
-  Get-ChildItem | Format-Wide
+  Get-ChildItem | Format-Wide -AutoSize
 }
 function ll { 
-  Get-ChildItem | Format-List
+  Get-ChildItem -Force
 }
 function la {
-  Get-ChildItem -Force
+  Get-ChildItem -Force | Format-Wide -AutoSize
 }
 function .. { 
   Set-Location .. 
@@ -67,14 +67,14 @@ function e. {
 function cl {
   param ([string]$dir)
   Set-Location $dir
-  Get-ChildItem | Format-Wide
+  Get-ChildItem | Format-Wide -AutoSize
 }
 
 # Make directory and change into it
 function mkcd {
   param ([string]$dir)
-  New-Item -Path .\$dir -ItemType Directory
-  Set-Location -Path .\$dir
+  New-Item -Path $dir -ItemType Directory
+  Set-Location -Path $dir
 }
 
 
@@ -117,6 +117,7 @@ Set-Alias pn pnpm -Option AllScope
 # Common Git command shortcuts
 #
 
+Set-Alias g git -Option AllScope
 function gitp { 
   git pull 
 }
