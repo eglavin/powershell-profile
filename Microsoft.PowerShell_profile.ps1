@@ -1,3 +1,5 @@
+$PROFILE_DIR = (Get-Item $PROFILE).DirectoryName;
+
 # https://github.com/devblackops/Terminal-Icons
 Import-Module -Name Terminal-Icons
 
@@ -21,7 +23,7 @@ $env:POSH_GIT_ENABLED = $true
 
 # https://ohmyposh.dev/
 oh-my-posh init pwsh | Invoke-Expression
-oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH/atomic.omp.json" | Invoke-Expression
+oh-my-posh init pwsh --config "$PROFILE_DIR/hotstick.minimal.omp.json" | Invoke-Expression
 
 
 # Delete default powershell aliases that conflict with git bash commands
@@ -157,9 +159,7 @@ function U {
 
 
 # Check if a local profile override is set and invoke it if so.
-$PROFILE_DIR = (Get-Item $PROFILE).DirectoryName;
 $LOCAL_PROFILE_OVERRIDES = "$PROFILE_DIR\Microsoft.PowerShell_profile.local.ps1";
-
 if (Test-Path -Path $LOCAL_PROFILE_OVERRIDES -PathType Leaf) {
   . $LOCAL_PROFILE_OVERRIDES
 }
