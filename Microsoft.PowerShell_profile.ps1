@@ -1,8 +1,9 @@
 # https://github.com/devblackops/Terminal-Icons
 Import-Module -Name Terminal-Icons
 
+Set-Alias g git -Option AllScope
 # https://github.com/dahlbyk/posh-git/#installation
-Import-Module posh-git
+Import-Module -Name Posh-Git
 
 # https://learn.microsoft.com/en-us/powershell/module/psreadline/set-psreadlineoption
 $PSReadLineOptions = @{
@@ -117,7 +118,6 @@ Set-Alias pn pnpm -Option AllScope
 # Common Git command shortcuts
 #
 
-Set-Alias g git -Option AllScope
 function gitp { 
   git pull 
 }
