@@ -88,6 +88,9 @@ Set-Alias winfetch pwshfetch-test-1 # https://github.com/lptstr/winfetch
 function c. {
   code . 
 }
+function wt. {
+  wt -d "$(get-item .)"
+}
 function ipme {
   Invoke-WebRequest ifconfig.me 
 }
