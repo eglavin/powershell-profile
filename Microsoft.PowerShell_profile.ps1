@@ -92,7 +92,8 @@ function wt. {
   wt -d "$(get-item .)"
 }
 function ipme {
-  Invoke-WebRequest ifconfig.me 
+  $ipaddr = Invoke-WebRequest ifconfig.me/ip
+  $ipaddr.Content.Trim()
 }
 
 
