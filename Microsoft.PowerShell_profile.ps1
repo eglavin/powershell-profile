@@ -19,7 +19,7 @@ $PSReadLineOptions = @{
 Set-PSReadLineOption @PSReadLineOptions
 
 # https://github.com/dahlbyk/posh-git
-$env:POSH_GIT_ENABLED = $true 
+$env:POSH_GIT_ENABLED = $true
 
 # https://ohmyposh.dev/
 oh-my-posh init pwsh | Invoke-Expression
@@ -53,17 +53,17 @@ function l {
 function ls {
   Get-ChildItem | Format-Wide -AutoSize
 }
-function ll { 
+function ll {
   Get-ChildItem -Force
 }
 function la {
   Get-ChildItem -Force | Format-Wide -AutoSize
 }
-function .. { 
-  Set-Location .. 
+function .. {
+  Set-Location ..
 }
 function e. {
-  explorer . 
+  explorer .
 }
 
 # Change into directory and list content
@@ -86,7 +86,10 @@ function mkcd {
 
 Set-Alias winfetch pwshfetch-test-1 # https://github.com/lptstr/winfetch
 function c. {
-  code . 
+  code .
+}
+function ci. {
+  code-insiders .
 }
 function wt. {
   wt -d "$(get-item .)"
@@ -100,17 +103,17 @@ function ipme {
 # Common Node command shortcuts
 #
 
-function ns { 
-  npm start 
+function ns {
+  npm start
 }
-function ys { 
-  yarn start 
+function ys {
+  yarn start
 }
-function yd { 
-  yarn dev 
+function yd {
+  yarn dev
 }
-function yu { 
-  yarn upgrade-interactive --latest 
+function yu {
+  yarn upgrade-interactive --latest
 }
 function yt {
   yarn test
@@ -124,11 +127,11 @@ Set-Alias pn pnpm -Option AllScope
 # Common Git command shortcuts
 #
 
-function gitp { 
-  git pull 
+function gitp {
+  git pull
 }
-function gitb { 
-  git branch 
+function gitb {
+  git branch
 }
 function gita {
   param ([string]$file)
@@ -151,10 +154,10 @@ function gitor {
 # Helper function to show Unicode character
 function U {
   param ([int] $Code)
- 
+
   if ((0 -le $Code) -and ($Code -le 0xFFFF)) {
     return [char] $Code
-  } 
+  }
   if ((0x10000 -le $Code) -and ($Code -le 0x10FFFF)) {
     return [char]::ConvertFromUtf32($Code)
   }
