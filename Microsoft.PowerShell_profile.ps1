@@ -151,6 +151,20 @@ function gitor {
 }
 
 
+# Common Docker command shortcuts
+#
+
+function dcp {
+  docker-compose pull
+}
+function dcs {
+  docker-compose stop
+}
+function dcup {
+  docker-compose up -d
+}
+
+
 # Helper function to show Unicode character
 function U {
   param ([int] $Code)
