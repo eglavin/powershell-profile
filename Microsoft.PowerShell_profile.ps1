@@ -149,6 +149,10 @@ function gitor {
   $url = git config --get remote.origin.url
   Start-Process $url
 }
+function gitwhoami {
+  Write-Host "Name: $(git config --global user.name)"
+  Write-Host "Email: $(git config --global user.email)"
+}
 
 
 # Common Docker command shortcuts
