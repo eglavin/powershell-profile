@@ -118,8 +118,17 @@ function yu {
 function yt {
   yarn test
 }
+function yta {
+  yarn test:all
+}
 function ytc {
   yarn test:cover
+}
+function ytca {
+  yarn test:cover:all
+}
+function yts {
+  yarn test:snap
 }
 Set-Alias pn pnpm -Option AllScope
 
