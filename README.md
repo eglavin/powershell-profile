@@ -2,14 +2,26 @@
 
 ## Prerequisites
 
-The following things need to be installed to use this without errors being printed to the terminal on launch.
+This powershell profile has been designed for Powershell 7+, which can be installed using:
+
+```ps1
+winget install --id=Microsoft.PowerShell
+```
+
+Once Powershell 7+ has been installed, Oh-My-Posh can be installed using:
+
+```ps1
+winget install --id=JanDeDobbeleer.OhMyPosh
+```
+
+The following Powershell modules are also required to be installed:
 
 - Terminal-Icons
 - Posh-Git
 
 ```ps1
-Install-Module "Terminal-Icons" -Scope CurrentUser -Force
-Install-Module "posh-git" -Scope CurrentUser -Force
+Install-Module -Name "Terminal-Icons" -Scope CurrentUser -Force
+Install-Module -Name "posh-git" -Scope CurrentUser -Force
 ```
 
 ## Local Overrides
