@@ -1,5 +1,8 @@
 $PROFILE_DIR = (Get-Item $PROFILE).DirectoryName;
 
+# Initialisation
+#
+
 # https://github.com/devblackops/Terminal-Icons
 Import-Module -Name Terminal-Icons
 
@@ -22,7 +25,6 @@ Set-PSReadLineOption @PSReadLineOptions
 $env:POSH_GIT_ENABLED = $true
 
 # https://ohmyposh.dev/
-oh-my-posh init pwsh | Invoke-Expression
 oh-my-posh init pwsh --config "$PROFILE_DIR/hotstick.minimal.omp.json" | Invoke-Expression
 
 
@@ -68,16 +70,24 @@ function e. {
 
 # Change into directory and list content
 function cl {
-  param ([string]$dir)
+  param ([string] $dir)
+  if ($dir) {
+    $dir = "."
+  }
   Set-Location $dir
   Get-ChildItem | Format-Wide -AutoSize
 }
 
 # Make directory and change into it
 function mkcd {
-  param ([string]$dir)
-  New-Item -Path $dir -ItemType Directory
-  Set-Location -Path $dir
+  param ([string] $dir)
+  if ($dir) {
+    New-Item -Path $dir -ItemType Directory
+    Set-Location -Path $dir
+  }
+  else {
+    Write-Error "No directory name provided"
+  }
 }
 
 
@@ -96,7 +106,7 @@ function wt. {
 }
 function ipme {
   $ipaddr = Invoke-WebRequest ifconfig.me/ip
-  $ipaddr.Content.Trim()
+  Write-Host $ipaddr.Content.Trim()
 }
 
 
@@ -143,12 +153,22 @@ function gitb {
   git branch
 }
 function gita {
-  param ([string]$file)
-  git add $file
+  param ([Parameter(ValueFromRemainingArguments = $true)] [string[]] $files)
+  if ($files) {
+    git add $files
+  }
+  else {
+    Write-Error "No files provided"
+  }
 }
 function gitc {
-  param ([string]$branch)
-  git checkout $branch
+  param ([string] $branch)
+  if ($branch) {
+    git checkout $branch
+  }
+  else {
+    Write-Error "No branch provided"
+  }
 }
 function gbpush {
   $branch = git rev-parse --abbrev-ref HEAD
@@ -176,6 +196,9 @@ function dcs {
 function dcup {
   docker-compose up -d
 }
+function dcrm {
+  docker-compose rm -f -s
+}
 
 
 # Helper function to show Unicode character
@@ -193,9 +216,8 @@ function U {
 
 
 # Check if a local profile override is set and invoke it if so.
-$LOCAL_PROFILE_OVERRIDES = "$PROFILE_DIR\Microsoft.PowerShell_profile.local.ps1";
-if (Test-Path -Path $LOCAL_PROFILE_OVERRIDES -PathType Leaf) {
-  . $LOCAL_PROFILE_OVERRIDES
+if (Test-Path -Path "$PROFILE_DIR\Microsoft.PowerShell_profile.local.ps1" -PathType Leaf) {
+  . "$PROFILE_DIR\Microsoft.PowerShell_profile.local.ps1"
 }
 
 # Clear-Host
