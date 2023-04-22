@@ -71,8 +71,8 @@ function e. {
 # Change into directory and list content
 function cl {
   param ([string] $dir)
-  if ($dir) {
-    $dir = "."
+  if (!$dir) {
+    $dir = Get-Location
   }
   Set-Location $dir
   Get-ChildItem | Format-Wide -AutoSize
