@@ -14,6 +14,14 @@ Once Powershell 7+ has been installed, Oh-My-Posh can be installed using:
 winget install --id=JanDeDobbeleer.OhMyPosh
 ```
 
+## Installation
+
+To install this profile, use the following command to clone it into your Powershell profile directory and then restart your terminal to begin using:
+
+```ps1
+git clone https://github.com/eglavin/powershell-profile.git (Split-Path -parent $PROFILE)
+```
+
 The following Powershell modules are also required to be installed:
 
 - Terminal-Icons
