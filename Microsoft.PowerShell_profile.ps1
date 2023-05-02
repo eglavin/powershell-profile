@@ -69,6 +69,10 @@ function la {
   param ([string] $dir)
   Get-ChildItem -Force $dir | Format-Wide -AutoSize
 }
+function lt {
+  param ([string] $dir)
+  Get-ChildItem -Force $dir | Sort-Object LastAccessTime
+}
 function .. {
   Set-Location ..
 }
