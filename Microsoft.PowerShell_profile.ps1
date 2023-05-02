@@ -203,7 +203,7 @@ function gitc {
   }
 }
 function gbpush {
-  $branch = git rev-parse --abbrev-ref HEAD
+  $branch = git branch --show
   git push -u origin $branch
 }
 function gitor {
