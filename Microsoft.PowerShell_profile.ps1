@@ -45,6 +45,10 @@ if (get-command git) {
   Remove-Item -force alias:tee
 }
 
+# Reload powershell environment
+function rldpsenv {
+  $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+}
 
 # Bash style list directory listing
 #
