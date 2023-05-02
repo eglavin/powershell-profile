@@ -47,23 +47,27 @@ if (get-command git) {
 
 # Reload powershell environment
 function rldpsenv {
-  $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+  $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
 }
 
 # Bash style list directory listing
 #
 
 function l {
-  Get-ChildItem
+  param ([string] $dir)
+  Get-ChildItem $dir
 }
 function ls {
-  Get-ChildItem | Format-Wide -AutoSize
+  param ([string] $dir)
+  Get-ChildItem $dir | Format-Wide -AutoSize
 }
 function ll {
-  Get-ChildItem -Force
+  param ([string] $dir)
+  Get-ChildItem -Force $dir
 }
 function la {
-  Get-ChildItem -Force | Format-Wide -AutoSize
+  param ([string] $dir)
+  Get-ChildItem -Force $dir | Format-Wide -AutoSize
 }
 function .. {
   Set-Location ..
@@ -104,6 +108,26 @@ function c. {
 }
 function ci. {
   code-insiders .
+}
+function Get-VisualStudio-Location {
+  # Determining Installed Visual Studio Path for 2017
+  # https://stackoverflow.com/a/54729540
+  $regKey = "Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\devenv.exe"
+  $visualStudioDir = Get-ItemPropertyValue -Path $regKey -Name "(Default)"
+  return $visualStudioDir;
+}
+function vs. {
+  Start-Process (Get-VisualStudio-Location) .
+}
+function vsp. {
+  $sln = Get-ChildItem *.sln
+  if (!$sln) {
+    Write-Error "No solution file found"
+  }
+  else {
+    Write-Host "Opening $(($sln)[0])"
+    Start-Process (Get-VisualStudio-Location) $($sln)[0]
+  }
 }
 function wt. {
   wt -d "$(get-item .)"
