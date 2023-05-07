@@ -22,7 +22,8 @@ To install this profile, use the following command to clone it into your Powersh
 git clone https://github.com/eglavin/powershell-profile.git (Split-Path -parent $PROFILE)
 ```
 
-**Warning**: This command won't work if you currently have an existing profile setup.
+> **Warning**
+> This command won't work if you currently have an existing profile setup.
 
 ## Post-Install Powershell Modules
 
