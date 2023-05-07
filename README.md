@@ -8,7 +8,7 @@ This powershell profile has been designed for Powershell 7+, which can be instal
 winget install --id=Microsoft.PowerShell
 ```
 
-Once Powershell 7+ has been installed, Oh-My-Posh can be installed using:
+And [Oh-My-Posh](https://ohmyposh.dev) which can be installed using:
 
 ```ps1
 winget install --id=JanDeDobbeleer.OhMyPosh
@@ -22,10 +22,14 @@ To install this profile, use the following command to clone it into your Powersh
 git clone https://github.com/eglavin/powershell-profile.git (Split-Path -parent $PROFILE)
 ```
 
-The following Powershell modules are also required to be installed:
+**Warning**: This command won't work if you currently have an existing profile setup.
 
-- Terminal-Icons
-- Posh-Git
+## Post-Install Powershell Modules
+
+The following Powershell Modules are also required to be installed:
+
+- [Terminal-Icons](https://github.com/devblackops/Terminal-Icons)
+- [Posh-Git](https://github.com/dahlbyk/posh-git)
 
 ```ps1
 Install-Module -Name "Terminal-Icons" -Scope CurrentUser -Force
@@ -38,8 +42,8 @@ Setup terminal fonts using Oh-My-Posh in an administrator window.
 
 Fonts to install:
 
-- FiraCode
-- Meslo
+- [FiraCode](https://github.com/tonsky/FiraCode)
+- [Meslo](https://github.com/andreberg/Meslo-Font)
 
 ```ps1
 oh-my-posh font install FiraCode

@@ -1,16 +1,18 @@
-$PROFILE_DIR = (Get-Item $PROFILE).DirectoryName;
+$PROFILE_DIR = Split-Path -parent $PROFILE;
 
 # Initialisation
 #
 
-# https://github.com/devblackops/Terminal-Icons
 Import-Module -Name Terminal-Icons
 
 Set-Alias g git -Option AllScope
-# https://github.com/dahlbyk/posh-git/#installation
 Import-Module -Name Posh-Git
 
+$env:POSH_GIT_ENABLED = $true
+oh-my-posh init pwsh --config "$PROFILE_DIR/hotstick.minimal.omp.json" | Invoke-Expression
+
 # https://learn.microsoft.com/en-us/powershell/module/psreadline/set-psreadlineoption
+# https://github.com/PowerShell/PSReadLine#usage
 $PSReadLineOptions = @{
   PredictionSource              = "HistoryAndPlugin"
   PredictionViewStyle           = "ListView"
@@ -18,12 +20,9 @@ $PSReadLineOptions = @{
   HistorySearchCursorMovesToEnd = $true
 }
 Set-PSReadLineOption @PSReadLineOptions
-
-# https://github.com/PowerShell/PSReadLine#usage
 Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
 Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
 Set-PSReadLineKeyHandler -Key Tab -Function Complete
-
 Set-PSReadLineKeyHandler -Chord '"', "'" `
   -BriefDescription SmartInsertQuote `
   -LongDescription "Insert paired quotes if not already on a quote" `
@@ -47,34 +46,7 @@ Set-PSReadLineKeyHandler -Chord '"', "'" `
 }
 
 
-# https://ohmyposh.dev
-$env:POSH_GIT_ENABLED = $true
-oh-my-posh init pwsh --config "$PROFILE_DIR/hotstick.minimal.omp.json" | Invoke-Expression
-
-
-# Delete default powershell aliases that conflict with git bash commands
-if (get-command git) {
-  Remove-Item -force alias:cat
-  Remove-Item -force alias:clear
-  Remove-Item -force alias:cp
-  Remove-Item -force alias:diff
-  Remove-Item -force alias:echo
-  Remove-Item -force alias:kill
-  Remove-Item -force alias:ls
-  Remove-Item -force alias:mv
-  Remove-Item -force alias:ps
-  Remove-Item -force alias:pwd
-  Remove-Item -force alias:rm
-  Remove-Item -force alias:sleep
-  Remove-Item -force alias:tee
-}
-
-# Reload powershell environment
-function rldpsenv {
-  $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
-}
-
-# Bash style list directory listing
+# Bash style directory listing
 #
 
 function l {
@@ -97,13 +69,23 @@ function lt {
   param ([string] $dir)
   Get-ChildItem -Force $dir | Sort-Object LastAccessTime
 }
+
+
+# Application commands
+#
+
+# Step up directory
 function .. {
   Set-Location ..
 }
+# Open windows explorer in current directory
 function e. {
   explorer .
 }
-
+# Open windows terminal in current directory
+function wt. {
+  wt -d "$(get-item .)"
+}
 # Change into directory and list content
 function cl {
   param ([string] $dir)
@@ -113,7 +95,6 @@ function cl {
   Set-Location $dir
   Get-ChildItem | Format-Wide -AutoSize
 }
-
 # Make directory and change into it
 function mkcd {
   param ([string] $dir)
@@ -125,12 +106,20 @@ function mkcd {
     Write-Error "No directory name provided"
   }
 }
+# Show current ip address
+function ipme {
+  $ipaddr = Invoke-WebRequest ifconfig.me/ip
+  Write-Host $ipaddr.Content.Trim()
+}
+# Reload powershell environment
+function Reload-PS-Environment {
+  $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
+}
 
 
-# Application commands
+# Code editor commands
 #
 
-Set-Alias winfetch pwshfetch-test-1 # https://github.com/lptstr/winfetch
 function c. {
   code .
 }
@@ -157,13 +146,15 @@ function vsp. {
     Start-Process (Get-VisualStudio-Location) $($sln)[0]
   }
 }
-function wt. {
-  wt -d "$(get-item .)"
+function Start-NeoVim {
+  if (Test-Path $env:LOCALAPPDATA\Programs\Neovim\bin\nvim.exe) {
+    nvim $args
+  }
+  else {
+    Write-Error "Couldn't find NeoVim"
+  }
 }
-function ipme {
-  $ipaddr = Invoke-WebRequest ifconfig.me/ip
-  Write-Host $ipaddr.Content.Trim()
-}
+Set-Alias nvi Start-NeoVim -Option AllScope
 
 
 # Common Node command shortcuts
@@ -171,6 +162,9 @@ function ipme {
 
 function ns {
   npm start
+}
+function nr {
+  npm run $args
 }
 function ys {
   yarn start
