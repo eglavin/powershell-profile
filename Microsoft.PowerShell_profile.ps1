@@ -49,9 +49,10 @@ Set-PSReadLineKeyHandler -Chord '"', "'" `
 # Bash style directory listing
 #
 
+Remove-Item -force alias:ls # Remove powershell ls alias
 function l {
   param ([string] $dir)
-  Get-ChildItem $dir
+  Get-ChildItem $dir | Format-Wide -AutoSize
 }
 function ls {
   param ([string] $dir)
@@ -67,7 +68,7 @@ function la {
 }
 function lt {
   param ([string] $dir)
-  Get-ChildItem -Force $dir | Sort-Object LastAccessTime
+  Get-ChildItem -Force $dir | Sort-Object LastWriteTime -Descending
 }
 
 
