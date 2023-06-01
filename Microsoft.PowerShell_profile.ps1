@@ -250,6 +250,16 @@ function dcup {
 function dcrm {
   docker-compose rm -f -s
 }
+function Connect-ToDockerContainer {
+  param ([string] $container)
+  if ($container) {
+    docker exec -it $container bash
+  }
+  else {
+    Write-Error "No container name provided"
+  }
+}
+Set-Alias drc Connect-ToDockerContainer -Option AllScope
 
 
 # Helper function to show Unicode character
