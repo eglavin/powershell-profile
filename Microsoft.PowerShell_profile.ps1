@@ -227,7 +227,11 @@ function gbpush {
 }
 function gitor {
   $url = git config --get remote.origin.url
-  Start-Process $url
+  if ($url -Match "@") {
+    Start-Process "https://$($url.Split("@")[1])" # Fix for Azure Devops repos with config url like https://{org}@{url}
+  } else {
+    Start-Process $url
+  }
 }
 function gitwhoami {
   Write-Host "Name: $(git config --global user.name)"
