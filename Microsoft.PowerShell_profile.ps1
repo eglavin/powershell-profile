@@ -23,27 +23,7 @@ Set-PSReadLineOption @PSReadLineOptions
 Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
 Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
 Set-PSReadLineKeyHandler -Key Tab -Function Complete
-Set-PSReadLineKeyHandler -Chord '"', "'" `
-  -BriefDescription SmartInsertQuote `
-  -LongDescription "Insert paired quotes if not already on a quote" `
-  -ScriptBlock {
-  param($key, $arg)
-
-  $line = $null
-  $cursor = $null
-  [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState([ref]$line, [ref]$cursor)
-
-  if ($line.Length -gt $cursor -and $line[$cursor] -eq $key.KeyChar) {
-    # Just move the cursor
-    [Microsoft.PowerShell.PSConsoleReadLine]::SetCursorPosition($cursor + 1)
-  }
-  else {
-    # Insert matching quotes, move cursor to be in between the quotes
-    [Microsoft.PowerShell.PSConsoleReadLine]::Insert("$($key.KeyChar)" * 2)
-    [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState([ref]$line, [ref]$cursor)
-    [Microsoft.PowerShell.PSConsoleReadLine]::SetCursorPosition($cursor - 1)
-  }
-}
+Set-PSReadLineKeyHandler -Chord Ctrl+. -Function MenuComplete
 
 
 # Bash style directory listing
@@ -147,15 +127,8 @@ function vsp. {
     Start-Process (Get-VisualStudio-Location) $($sln)[0]
   }
 }
-function Start-NeoVim {
-  if (Test-Path $env:LOCALAPPDATA\Programs\Neovim\bin\nvim.exe) {
-    nvim $args
-  }
-  else {
-    Write-Error "Couldn't find NeoVim"
-  }
-}
-Set-Alias nvi Start-NeoVim -Option AllScope
+Set-Alias vi nvim -Option AllScope
+Set-Alias vim nvim -Option AllScope
 
 
 # Common Node command shortcuts
@@ -177,19 +150,19 @@ function yu {
   yarn upgrade-interactive --latest
 }
 function yt {
-  yarn test
+  yarn test $args
 }
 function yta {
   yarn test:all
 }
 function ytc {
-  yarn test:cover
+  yarn test:cover $args
 }
 function ytca {
   yarn test:cover:all
 }
 function yts {
-  yarn test:snap
+  yarn test:snap $args
 }
 Set-Alias pn pnpm -Option AllScope
 
@@ -197,30 +170,6 @@ Set-Alias pn pnpm -Option AllScope
 # Common Git command shortcuts
 #
 
-function gitp {
-  git pull
-}
-function gitb {
-  git branch
-}
-function gita {
-  param ([Parameter(ValueFromRemainingArguments = $true)] [string[]] $files)
-  if ($files) {
-    git add $files
-  }
-  else {
-    Write-Error "No files provided"
-  }
-}
-function gitc {
-  param ([string] $branch)
-  if ($branch) {
-    git checkout $branch
-  }
-  else {
-    Write-Error "No branch provided"
-  }
-}
 function gbpush {
   $branch = git branch --show
   git push -u origin $branch
@@ -229,7 +178,8 @@ function gitor {
   $url = git config --get remote.origin.url
   if ($url -Match "@") {
     Start-Process "https://$($url.Split("@")[1])" # Fix for Azure Devops repos with config url like https://{org}@{url}
-  } else {
+  }
+  else {
     Start-Process $url
   }
 }
