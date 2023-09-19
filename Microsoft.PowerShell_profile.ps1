@@ -62,7 +62,8 @@ function .. {
 }
 # Open windows explorer in current directory
 function e. {
-  explorer .
+  param ([string] $path = ".")
+  explorer $path
 }
 # Open windows terminal in current directory
 function wt. {
@@ -103,10 +104,12 @@ function Reload-PS-Environment {
 #
 
 function c. {
-  code .
+  param ([string] $path = ".")
+  code $path
 }
 function ci. {
-  code-insiders .
+  param ([string] $path = ".")
+  code-insiders $path
 }
 function Get-VisualStudio-Location {
   # Determining Installed Visual Studio Path for 2017
