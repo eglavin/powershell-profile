@@ -29,11 +29,9 @@ git clone https://github.com/eglavin/powershell-profile.git (Split-Path -parent 
 
 The following Powershell Modules are also required to be installed:
 
-- [Terminal-Icons](https://github.com/devblackops/Terminal-Icons)
 - [Posh-Git](https://github.com/dahlbyk/posh-git)
 
 ```ps1
-Install-Module -Name "Terminal-Icons" -Scope CurrentUser -Force
 Install-Module -Name "posh-git" -Scope CurrentUser -Force
 ```
 
