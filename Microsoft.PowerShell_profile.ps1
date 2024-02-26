@@ -6,13 +6,19 @@ $env:POSH_GIT_ENABLED = $true
 Set-Alias g git -Option AllScope
 Set-PSReadLineOption -HistoryNoDuplicates -PredictionSource HistoryAndPlugin -PredictionViewStyle ListView
 
-Import-Module -Name Posh-Git
-oh-my-posh init pwsh --config "$PROFILE_DIR/hotstick.minimal.omp.json" | Invoke-Expression
+if (Get-Module -ListAvailable -Name Posh-Git) {
+  Import-Module -Name Posh-Git
+}
+if (Get-Command -Name oh-my-posh -ErrorAction SilentlyContinue) {
+  oh-my-posh init pwsh --config "$PROFILE_DIR/hotstick.minimal.omp.json" | Invoke-Expression
+}
 
 
 # Directory shortcuts
 
-Remove-Item -force alias:ls
+if (Get-Alias -Name ls -ErrorAction SilentlyContinue) {
+  Remove-Item -force alias:ls
+}
 function .. { Set-Location .. }
 function cdl ([string] $dir = '.') {
   Set-Location $dir
